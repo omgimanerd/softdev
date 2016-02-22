@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+ <div class='jumbotron'>
+    <h1>WeatherText</h1>
+    <h2>By Alvin Lin &amp; David Rothblatt</h2>
+    <p>
+      Welcome to WeatherText. We send you daily texts about the weather.
+    </p>
+    <body>
+      {% if username %}
+      Hello <b>{{ username }}</b>!
+      <button class='btn btn-default'>
+        <a href='/user'>User Settings</a>
+      </button>
+
+      {% else %}
+      <button class='btn btn-default'>
+        <a href='/login'>Login</a>
+      </button>
+
+      <button class='btn btn-default'>
+        <a href='/register'>Register</a>
+      </button>
+      {% endif %}
+
+    </body>
+
+ </div>
+
+{% endblock %}
