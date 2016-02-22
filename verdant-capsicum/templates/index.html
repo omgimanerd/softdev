@@ -1,0 +1,38 @@
+{% extends "master.html" %}
+
+{% block body %}
+
+  <div class={% if data %}"result-logo"{% else %}"logo"{% endif %}>
+       <span class="logo-2">C</span><!--
+    --><span class="logo-4">a</span><!--
+    --><span class="logo-3">p</span><!--
+    --><span class="logo-1">s</span><!--
+    --><span class="logo-2">i</span><!--
+    --><span class="logo-3">c</span><!--
+    --><span class="logo-1">u</span><!--
+    --><span class="logo-4">m</span>
+  </div>
+
+  {% if data %}
+  <h1 class="query">{{ query }}</h1>
+  <h2 class="keyword">Keyword: {{ data['keyword'] }}</h2>
+    <ol class="results">
+      {% for d in data['data'] %}
+        <li class="result-{{ randColor|random }} ">
+          {{ d }}
+        </li>
+      {% endfor %}
+    </ol>
+  {% else %}
+    <form class=search action='/search' method='GET'>
+      <input type=text name='query' class=search-bar>
+      <div class="button-container">
+        <button type=submit class=search-button>Capsicum Search</button>
+        <button type=submit class=search-button>I'm Feeling Spicy</button>
+      </div>
+    </form>
+  {% endif %}
+
+
+
+{% endblock %}
