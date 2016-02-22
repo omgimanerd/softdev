@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{%block body%}
+<div id="main-div" class="container">
+  <form role="form" action='/post' method='POST'>
+
+    <div class="form-group">
+      <label for="comment">Post!</label>
+      <textarea class="form-control" rows="10" cols="50" id="comment"></textarea>
+    </div>
+
+    <div class="form-group">
+      <input type="submit" value="Post"/> <br>
+    </div>
+
+{% endblock %}

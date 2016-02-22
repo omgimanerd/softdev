@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  <div class="col-md-9">
+    
+    {% if message %}
+    <h3>
+      {{ message }}
+    </h3>
+    {% endif %}
+    
+    <form role="form" action="/signup" method="POST">
+      
+        <div class="form-group">
+        <label for="inputFullName">Full Name:</label>
+        <input type="text" class="form-control"
+               id="inputFullName" placeholder="fullname"
+               name="fullname" />
+        <br/>
+      </div>
+      
+      <div class="form-group">
+        <label for="inputName">Username (Only numbers and letters!):</label>
+        <input type="text" class="form-control"
+               id="inputName" placeholder="username"
+               name="username" />
+        <br />
+      </div>
+      
+      <div class="form-group">
+        <label for="inputPass">Password:</label>
+        <input type="password"
+               class="form-control"
+               id="inputPass"
+               placeholder="password"
+               name="password" /> <br>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPass">Confirm Password:</label>
+        <input type="password"
+               class="form-control"
+               id="confirmPass"
+               placeholder="enter password"
+               name="confirmPassword" /> <br>
+      </div>
+
+      <div class="form-group">
+        Register: <br>
+        <input type="submit" value="submit"/> <br>
+      </div>
+
+    </form>
+  </div>
+{% endblock %}
