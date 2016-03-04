@@ -18,7 +18,6 @@ BouncingImageAnimator.CANVAS_WIDTH = 800;
 BouncingImageAnimator.CANVAS_HEIGHT = 600;
 
 BouncingImageAnimator.create = function(canvas) {
-  console.log('called');
   canvas.width = BouncingImageAnimator.CANVAS_WIDTH;
   canvas.height = BouncingImageAnimator.CANVAS_HEIGHT;
   var image = new Image();
