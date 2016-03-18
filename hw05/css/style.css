@@ -33,6 +33,14 @@ h1 {
 #container div {
   height: 25px;
   background-color: red;
-  border: 1px solid red;
+  border: 1px solid black;
   font-size: 12px;
+}
+
+#container div:nth-child(even) {
+  opacity: 0.8;
+}
+
+#container div:nth-child(odd) {
+  opacity: 0.6;
 }
