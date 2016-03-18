@@ -1,0 +1,38 @@
+/** 
+ * Main stylesheet for page.
+ */
+
+html, body {
+  width: 100%;
+  min-width: 1080;
+  height: 100%;
+  min-height: 700px;
+  margin: 0;
+  padding: 0;
+  border: none;
+
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+h1 {
+  margin: auto;
+  text-align: center;
+}
+
+#container {
+  background-color: #aa0000;
+  padding: 5px;
+  margin: 25px;
+  border-radius: 5px;
+}
+
+#container div {
+  height: 25px;
+  background-color: red;
+  border: 1px solid red;
+  font-size: 12px;
+}
