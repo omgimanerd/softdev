@@ -1,5 +1,5 @@
 /**
- * This file was generated from the data.csv.
+ * This file was generated from republicans.csv.
  * @author alvin.lin.dev@gmail.com (Alvin Lin)
  */
 
