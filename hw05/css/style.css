@@ -31,13 +31,22 @@ h1 {
   border-radius: 5px;
 }
 
-#container div {
-  height: 40px;
+.state-container {
   margin: 4px 0px;
   padding: 0px 2px;
   border-radius: 5px;
-  font-size: 10px;
-  font-family: "Comic Sans";
+}
+
+.state-label {
+  height: 14px;
+  margin: 5px 0px;
+  font-size: 14px;
+  font-family: "Comic Sans", "Verdana", sans-serif;
+}
+
+.state-bar {
+  height: 15px;
+  border-radius: 5px;
 }
 
 #title {
