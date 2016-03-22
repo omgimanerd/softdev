@@ -24,23 +24,19 @@ h1 {
 }
 
 #container {
-  background-color: #aa0000;
+  width: 825px;
+  background-color: #777;
   padding: 5px;
-  margin: 25px;
+  margin: 25px auto;
   border-radius: 5px;
 }
 
 #container div {
-  height: 25px;
-  background-color: red;
-  border: 1px solid black;
-  font-size: 12px;
-}
-
-#container div:nth-child(even) {
-  opacity: 0.8;
-}
-
-#container div:nth-child(odd) {
-  opacity: 0.6;
+  height: 14px;
+  line-height: 14px;
+  margin: 4px 0px;
+  padding: 0px 2px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-family: "Comic Sans";
 }
