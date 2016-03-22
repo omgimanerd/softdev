@@ -9,7 +9,7 @@ window.addEventListener('load', function() {
 
   var getScaledWidth = d3.scale.linear()
     .domain([0, 500])
-    .range([0, 800]);
+    .range([0, 1000]);
   var graph = container.selectAll('div').data(delegateData).enter();
 
   graph.append('div').text(function(data, index) {
@@ -34,6 +34,11 @@ window.addEventListener('load', function() {
         return '#0000bb';
       });
 
+    if (republicans) {
+      d3.select('#title').text('Democratic Delegates');
+    } else {
+      d3.select('#title').text('Republican Delegates');
+    }
 
     republicans = !republicans;
   });

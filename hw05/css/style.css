@@ -1,4 +1,4 @@
-/** 
+/**
  * Main stylesheet for page.
  */
 
@@ -24,7 +24,7 @@ h1 {
 }
 
 #container {
-  width: 825px;
+  width: 1080px;
   background-color: #777;
   padding: 5px;
   margin: 25px auto;
@@ -32,11 +32,15 @@ h1 {
 }
 
 #container div {
-  height: 14px;
-  line-height: 14px;
+  height: 40px;
   margin: 4px 0px;
   padding: 0px 2px;
   border-radius: 5px;
   font-size: 10px;
   font-family: "Comic Sans";
+}
+
+#title {
+  text-align: center;
+  margin: 50px auto 0px;
 }
