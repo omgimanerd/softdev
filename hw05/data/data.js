@@ -3,6 +3,10 @@
  * @author alvin.lin.dev@gmail.com (Alvin Lin)
  */
 
+var months = ["January", "February", "March", "April", "May", "June",
+              "July", "August", "September", "October", "November",
+              "December"];
+
 var delegateData = [
   {
     "state": "Iowa",
