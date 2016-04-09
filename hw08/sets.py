@@ -20,27 +20,30 @@ def accepts(*arg_types):
         return wrapped_fn
     return wrapper
 
-@accepts(list, list)
+@accepts(set, set)
 def union(a, b):
-    return list(set(a + b))
+    return a | b
 
-@accepts(list, list)
+@accepts(set, set)
 def intersection(a, b):
-    res = []
-    [res.append(x) for x in a + b if x in a and x in b and x not in res]
-    return res
+    # res = []
+    # [res.append(x) for x in a + b if x in a and x in b and x not in res]
+    # return res
+    return a & b
 
-@accepts(list, list)
+@accepts(set, set)
 def set_difference(u, a):
-    res = []
-    [res.append(x) for x in u if x not in a]
-    return res
+    # res = []
+    # [res.append(x) for x in u if x not in a]
+    # return res
+    return a - u
     
-@accepts(list, list)
+@accepts(set, set)
 def symmetric_difference(a, b):
-    return set_difference(union(a, b), intersection(a, b))
+    # return set_difference(union(a, b), intersection(a, b))
+    return a ^ b
 
-@accepts(list, list)
+@accepts(set, set)
 def cartesian_product(a, b):
     res = []
     for x in a:
@@ -48,10 +51,9 @@ def cartesian_product(a, b):
             res.append([x, y])
     return res
 
-print union([1, 2, 3], [3, 4, 5, 1])
-print intersection([1, 2, 3], [3, 4, 5, 1])
-print set_difference([1, 2, 3], [3, 4, 5, 1])
-print set_difference([3, 4, 5, 1], [1, 2, 3])
-print symmetric_difference([1, 2, 3], [3, 4, 5, 1])
-print cartesian_product(['apple', 'oragnes'], [1, 2, 3])
-
+print union({1, 2, 3}, {3, 4, 5, 1})
+print intersection({1, 2, 3}, {3, 4, 5})
+print set_difference({1, 2, 3}, {3, 4, 5})
+print set_difference({3, 4, 5}, {1, 2, 3})
+print symmetric_difference({1, 2, 3}, {3, 4, 5})
+print cartesian_product({1, 2, 3}, {4, 5, 6})
