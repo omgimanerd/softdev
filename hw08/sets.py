@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # Author: Alvin Lin (alvin.lin.dev@gmail.com)
 
+from itertools import product
+
 def accepts_list(fn):
     def wrapped_fn(*args):
         if not all([isinstance(x, list) for x in args]):
@@ -45,11 +47,12 @@ def symmetric_difference(a, b):
 
 @accepts(set, set)
 def cartesian_product(a, b):
-    res = []
-    for x in a:
-        for y in b:
-            res.append([x, y])
-    return res
+    # res = []
+    # for x in a:
+    #     for y in b:
+    #         res.append([x, y])
+    # return res
+    return set([x for x in product(a, b)])
 
 print union({1, 2, 3}, {3, 4, 5, 1})
 print intersection({1, 2, 3}, {3, 4, 5})
