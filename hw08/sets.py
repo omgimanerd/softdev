@@ -1,0 +1,57 @@
+#!/usr/bin/python
+# Author: Alvin Lin (alvin.lin.dev@gmail.com)
+
+def accepts_list(fn):
+    def wrapped_fn(*args):
+        if not all([isinstance(x, list) for x in args]):
+            raise TypeError('%s can only be called with lists' % fn.func_name)
+        return fn(*args)
+    return wrapped_fn
+
+def accepts(*arg_types):
+    def wrapper(fn):
+        def wrapped_fn(*args):
+            if len(args) != len(arg_types):
+                raise TypeError('what')
+            if not all([isinstance(
+                    arg, arg_types[i]) for i, arg in enumerate(args)]):
+                raise TypeError('no')
+            return fn(*args)
+        return wrapped_fn
+    return wrapper
+
+@accepts(list, list)
+def union(a, b):
+    return list(set(a + b))
+
+@accepts(list, list)
+def intersection(a, b):
+    res = []
+    [res.append(x) for x in a + b if x in a and x in b and x not in res]
+    return res
+
+@accepts(list, list)
+def set_difference(u, a):
+    res = []
+    [res.append(x) for x in u if x not in a]
+    return res
+    
+@accepts(list, list)
+def symmetric_difference(a, b):
+    return set_difference(union(a, b), intersection(a, b))
+
+@accepts(list, list)
+def cartesian_product(a, b):
+    res = []
+    for x in a:
+        for y in b:
+            res.append([x, y])
+    return res
+
+print union([1, 2, 3], [3, 4, 5, 1])
+print intersection([1, 2, 3], [3, 4, 5, 1])
+print set_difference([1, 2, 3], [3, 4, 5, 1])
+print set_difference([3, 4, 5, 1], [1, 2, 3])
+print symmetric_difference([1, 2, 3], [3, 4, 5, 1])
+print cartesian_product(['apple', 'oragnes'], [1, 2, 3])
+
