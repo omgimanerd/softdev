@@ -24,20 +24,17 @@ def accepts(*arg_types):
 
 @accepts(set, set)
 def union(a, b):
+    # return a + [x for x in b if x not in a]
     return a | b
 
 @accepts(set, set)
 def intersection(a, b):
-    # res = []
-    # [res.append(x) for x in a + b if x in a and x in b and x not in res]
-    # return res
+    # return [x for x in a if x in b]
     return a & b
 
 @accepts(set, set)
 def set_difference(u, a):
-    # res = []
-    # [res.append(x) for x in u if x not in a]
-    # return res
+    # return [x for x in u if x not in a]
     return a - u
     
 @accepts(set, set)
@@ -47,12 +44,7 @@ def symmetric_difference(a, b):
 
 @accepts(set, set)
 def cartesian_product(a, b):
-    # res = []
-    # for x in a:
-    #     for y in b:
-    #         res.append([x, y])
-    # return res
-    return set([x for x in product(a, b)])
+    return [[(x, y) for x in a] for y in b]
 
 print union({1, 2, 3}, {3, 4, 5, 1})
 print intersection({1, 2, 3}, {3, 4, 5})
