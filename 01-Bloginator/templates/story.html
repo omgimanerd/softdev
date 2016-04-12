@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--head template from The New Boston-->
+<html lang="en">
+  <head>
+    <title>{{title}}</title>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  </head>
+  
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+	  </button>
+	  <li><a class="navbar-brand" href="blog"><font color="green">Go back to blog</font></a></li>
+	</div>
+	<ul class="nav navbar-nav navbar-right">
+	  <li><a data-toggle="modal" data-target="#editModal"><font color="red">Edit</font></a></li>
+	  <li><a href="/delete/{{user}}/{{title}}">Delete Post</a></li>
+	</ul>
+      </div>
+    </div>
+    
+    <div id="editModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h1 class="text-center type">Edit your post</h1>
+	  </div>
+	  <div class="modal-body">
+	    <center><h2>{{title}}</h2></center>
+            <form class="form col-md-12 center-block" id="input_form" method="POST">
+              <div class="form-group">
+		<textarea id="post_content" class="form-control input-lg" rows="12" cols="20" name="post_content" form="input_form">{{content}} </textarea>
+              </div>
+              <div class="form-group">
+		<button name="button" type="submit" class="btn btn-warning btn-lg btn-block type" value="submitted">Submit</button>
+              </div>
+            </form>
+	  </div>
+	  <div class="modal-footer">	
+	  </div>
+	</div>
+      </div>
+    </div>
+    
+    <div class="jumbotron3">
+      <div class="boxed2 type vertical" align="center">
+	<h2><u>{{title}}</u></h2>
+	<p>Posted by: {{user}}</p><br>
+	<h3>{{content}}</h3>
+      </div>
+    </div>
+  </body>
+  

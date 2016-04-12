@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--head template from The New Boston-->
+<html lang="en">
+  <head>
+    <title>About</title>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+	  </button>
+	  {% if un %}
+	  <a class="navbar-brand" href="profile">{{ un }}</a>
+	  {% endif %}
+	</div>
+	<div class="collapse navbar-collapse">
+	  <ul class="nav navbar-nav">
+            <li><a href="home">Home</a></li>
+	    <li class="active"><a href="#">About</a></li>
+	    <li><a href="members"> Members </a></li>
+	    {% if un %}
+            <li><a href="blog">Blog</a></li>
+	    {% endif %}
+	  </ul>
+	  {% if un %}
+	  <ul class="nav navbar-nav navbar-right">
+	    <li><a href="logout">Logout</a></li>
+	  </ul>
+	  {% endif %}
+	</div>
+      </div>
+    </div>
+
+    <div id="slide1" class="slide">
+      <div class="boxed type" align="center">
+   	<h1 align="center">Hi</h1>
+	<p id="test">
+	  <br>
+	  'what is bloggit', you might be wondering
+	  <br>
+	  sorry, we don't know either!
+	  <br><br>
+	  it'll be up to you
+	  <br><br>
+	  share whatever you want 
+	  <br>
+	  with whomever you want
+	  <br>
+	  whenever you want
+	  <br><br>
+	  it can be a haiku
+	  <br>
+	  a zuihitsu
+	  <br>
+	  a short story
+	  <br>
+	  a clever joke
+	  <br>
+	  or even a bad pun
+	  <br>
+	</p>
+      </div>
+    </div>
+
+    <div id="slide2" class="slide">
+      <img class="displayed" src="../static/notebook.png" alt="notebook">
+    </div>
+  </body>
+</html>
+
