@@ -11,10 +11,16 @@ def memoize(fn):
     return wrapped_fn
 
 @memoize
-def fib(n):
+def _fib(n):
     if n < 1:
         raise ValueError("No can do bruh")
-    return 1 if n == 1 or n == 2 else fib(n - 1) + fib(n - 2)
+    return 1 if n == 1 or n == 2 else _fib(n - 1) + _fib(n - 2)
 
-for i in range(1, 100):
-    print fib(i)
+@memoize
+def fib(n):
+    for i in range(1, n + 1):
+        _fib(i)
+        if i == n:
+            return _fib(i)
+
+print fib(100000)
