@@ -1,46 +1,126 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
   <head>
-    <meta charset="UTF-8">
-    <title>Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas by omgimanerd</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas (Stuyvesant Softdev 2016) by omgimanerd</title>
   </head>
+
   <body>
-    <section class="page-header">
-      <h1 class="project-name">Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas</h1>
-      <h2 class="project-tagline">Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas</h2>
-      <a href="https://github.com/omgimanerd/softdev" class="btn">View on GitHub</a>
-      <a href="https://github.com/omgimanerd/softdev/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/omgimanerd/softdev/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+    <header>
+      <div class="inner">
+        <h1>Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas (Stuyvesant Softdev 2016)</h1>
+        <h2>Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas (Stuyvesant Softdev 2016)</h2>
+        <a href="https://github.com/omgimanerd/softdev" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
 
-    <section class="main-content">
-      <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a id="multiplayer-game-development-with-nodejs-socketio-and-html5-canvas-stuyvesant-softdev-2016" class="anchor" href="#multiplayer-game-development-with-nodejs-socketio-and-html5-canvas-stuyvesant-softdev-2016" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas (Stuyvesant Softdev 2016)</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
+<p>This guide assumes you already know about object-oriented programming in JavaScript and object serialization. This is a high level overview on how to stitch together a multiplayer game from these elements and will be done entirely in JavaScript. You should have some familiarity with NodeJS servers as well. This guide will focus more on the high level structures needed to implement such a game and may leave out syntactical documentation. Resources for each of the elements needed will be linked if you need to learn the syntax for it.</p>
+
+<h3>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h3>
+
+<p>We will be using NodeJS, Socket.IO, and the HTML5 Canvas to create a multiplayer JavaScript game. The control flow of this application is relatively straightforward. The server will act as a central relay that all clients will be connected to via WebSockets. Each client will send user input to the server, which is then processed and used to update the state of the entities/objects/players on the server. The server will be constantly sending back the state of the server so that the client can render it on the canvas.</p>
+
+<h2>
+<a id="setup" class="anchor" href="#setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setup</h2>
+
+<p>Since we have not discussed NodeJS in class, I will include a few quick scripts to help you set up your environment. I will not be discussing the specifics of Node and the V8 JavaScript engine, so check out the NodeJS documentation if you want to learn more about Node.</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># Install nvm (Node Version Manager)</span>
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh <span class="pl-k">|</span> bash
+<span class="pl-c"># Install NodeJS version 0.12.10</span>
+nvm install 0.12.10
+<span class="pl-c"># Make a directory for your project</span>
+<span class="pl-c"># You should also create any other necessary folders (/lib, /public, /views, etc)</span>
+mkdir your_project
+<span class="pl-c1">cd</span> your_project
+mkdir public
+<span class="pl-c"># Initialize a node project (npm is the node package manager, analogous to pip for Python)</span>
+npm init
+<span class="pl-c"># We will be using the ExpressJS framework for this guide.</span>
+npm install --save express socket.io</pre></div>
+
+<p>Your server.js app script should look something like this:
+(Please note that this is a stripped implementation for demo purposes and that you should take advantage of Express and templating engines if you actually build a project)</p>
+
+<pre><code>// Dependencies.
+var express = require('express');
+var socketIO = require('socket.io');
+
+// Initialization.
+var app = express();
+var server = http.Server(app);
+
+app.set('port', PORT_NUMBER);
+
+app.use('/public',
+        express.static(__dirname + '/public'));
+
+app.use('/', function(request, response) {
+  response.sendFile(__dirname + '/index.html');
+});
+
+io.on('connection', function(socket) {
+});
+
+setInterval(function() {
+  // The server side updating will take place here.
+}, 1000 / 60);
+
+// Starts the server.
+server.listen(PORT_NUMBER, function() {
+  console.log('STARTING SERVER ON PORT ' + PORT_NUMBER);
+});
+</code></pre>
 
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>You can <a href="https://help.github.com/articles/basic-writing-and-formatting-syntax/#mentioning-users-and-teams" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>Created by <a href="https://github.com/omgimanerd" class="user-mention">@omgimanerd</a>
+Check out some of my creations <a href="https://github.com/penumbragames" class="user-mention">@penumbragames</a> (They may take time to load as they are hosted on Heroku free tier)
+<a href="http://tankanarchy.herokuapp.com">Tank Anarchy</a>
+<a href="http://obsidio.herokuapp.com">Obsidio</a>
+<a href="http://gittothehub.tech">Git To The Hub</a></p>
 
 <h3>
 <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
 
 <p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+        </section>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/omgimanerd/softdev">Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas</a> is maintained by <a href="https://github.com/omgimanerd">omgimanerd</a>.</span>
+        <aside id="sidebar">
+          <a href="https://github.com/omgimanerd/softdev/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/omgimanerd/softdev/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
+          <p class="repo-owner"><a href="https://github.com/omgimanerd/softdev"></a> is maintained by <a href="https://github.com/omgimanerd">omgimanerd</a>.</p>
 
-    </section>
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
 
   
   </body>
