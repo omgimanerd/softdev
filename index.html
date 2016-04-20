@@ -28,20 +28,20 @@
     <div id="content-wrapper">
       <div class="inner clearfix">
         <section id="main-content">
-          <h3>
-<a id="multiplayer-game-development-with-nodejs-socketio-and-html5-canvas-stuyvesant-softdev-2016" class="anchor" href="#multiplayer-game-development-with-nodejs-socketio-and-html5-canvas-stuyvesant-softdev-2016" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas (Stuyvesant Softdev 2016)</h3>
+          <h1>
+<a id="multiplayer-game-development-with-nodejs-socketio-and-html5-canvas-stuyvesant-softdev-2016" class="anchor" href="#multiplayer-game-development-with-nodejs-socketio-and-html5-canvas-stuyvesant-softdev-2016" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multiplayer Game Development with Node.js, Socket.IO, and HTML5 Canvas (Stuyvesant Softdev 2016)</h1>
 
 <p>This guide assumes you already know about object-oriented programming in JavaScript and object serialization. This is a high level overview on how to stitch together a multiplayer game from these elements and will be done entirely in JavaScript. You should have some familiarity with NodeJS servers as well. This guide will focus more on the high level structures needed to implement such a game and may leave out syntactical documentation. Resources for each of the elements needed will be linked if you need to learn the syntax for it.</p>
 
-<h3>
-<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h3>
+<h1>
+<a id="overview" class="anchor" href="#overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overview</h1>
 
 <p>We will be using NodeJS, Socket.IO, and the HTML5 Canvas to create a multiplayer JavaScript game. The control flow of this application is relatively straightforward. The server will act as a central relay that all clients will be connected to via WebSockets. Each client will send user input to the server, which is then processed and used to update the state of the entities/objects/players on the server. The server will be constantly sending back the state of the server so that the client can render it on the canvas.</p>
 
 <h2>
 <a id="setup" class="anchor" href="#setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setup</h2>
 
-<p>Since we have not discussed NodeJS in class, I will include a few quick scripts to help you set up your environment. I will not be discussing the specifics of Node and the V8 JavaScript engine, so check out the NodeJS documentation if you want to learn more about Node.</p>
+<p>Since we have not discussed NodeJS in class, I will include a few quick scripts to help you set up your environment. I will not be discussing the specifics of Node and the V8 JavaScript engine, so check out the <a href="https://nodejs.org/api/">NodeJS documentation</a> if you want to learn more about Node.</p>
 
 <div class="highlight highlight-source-shell"><pre><span class="pl-c"># Install nvm (Node Version Manager)</span>
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh <span class="pl-k">|</span> bash
@@ -54,8 +54,9 @@ mkdir your_project
 mkdir public
 <span class="pl-c"># Initialize a node project (npm is the node package manager, analogous to pip for Python)</span>
 npm init
-<span class="pl-c"># We will be using the ExpressJS framework for this guide.</span>
-npm install --save express socket.io</pre></div>
+<span class="pl-c"># Install dependencies, will be using the ExpressJS framework for this guide.</span>
+npm install --save express socket.io
+<span class="pl-c"># Host the server </span></pre></div>
 
 <p>Your server.js app script should look something like this:
 (Please note that this is a stripped implementation for demo purposes and that you should take advantage of Express and templating engines if you actually build a project)</p>
@@ -68,7 +69,7 @@ npm install --save express socket.io</pre></div>
 <span class="pl-k">var</span> app <span class="pl-k">=</span> <span class="pl-en">express</span>();
 <span class="pl-k">var</span> server <span class="pl-k">=</span> <span class="pl-smi">http</span>.<span class="pl-en">Server</span>(app);
 
-<span class="pl-smi">app</span>.<span class="pl-en">set</span>(<span class="pl-s"><span class="pl-pds">'</span>port<span class="pl-pds">'</span></span>, <span class="pl-c1">PORT_NUMBER</span>);
+<span class="pl-smi">app</span>.<span class="pl-en">set</span>(<span class="pl-s"><span class="pl-pds">'</span>port<span class="pl-pds">'</span></span>, <span class="pl-c1">5000</span>);
 
 <span class="pl-smi">app</span>.<span class="pl-en">use</span>(<span class="pl-s"><span class="pl-pds">'</span>/public<span class="pl-pds">'</span></span>,
         <span class="pl-smi">express</span>.<span class="pl-en">static</span>(<span class="pl-c1">__dirname</span> <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>/public<span class="pl-pds">'</span></span>));
@@ -77,12 +78,15 @@ npm install --save express socket.io</pre></div>
   <span class="pl-smi">response</span>.<span class="pl-en">sendFile</span>(<span class="pl-c1">__dirname</span> <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>/index.html<span class="pl-pds">'</span></span>);
 });
 
+<span class="pl-c">// Listener for packets that clients send.</span>
 <span class="pl-smi">io</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>connection<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">socket</span>) {
   <span class="pl-smi">socket</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>from-client<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>Client ID: <span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-smi">socket</span>.<span class="pl-c1">id</span>);
     <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>Data from client: <span class="pl-pds">'</span></span> <span class="pl-k">+</span> data);
   });
 });
 
+<span class="pl-c">// Sends data to every connected client at 60 Hertz</span>
 <span class="pl-c1">setInterval</span>(<span class="pl-k">function</span>() {
   <span class="pl-smi">io</span>.<span class="pl-smi">sockets</span>.<span class="pl-en">emit</span>(<span class="pl-s"><span class="pl-pds">'</span>from-server<span class="pl-pds">'</span></span>, {
     data<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>DATA FROM SERVER<span class="pl-pds">'</span></span>
@@ -90,11 +94,11 @@ npm install --save express socket.io</pre></div>
 }, <span class="pl-c1">1000</span> <span class="pl-k">/</span> <span class="pl-c1">60</span>);
 
 <span class="pl-c">// Starts the server.</span>
-<span class="pl-smi">server</span>.<span class="pl-en">listen</span>(<span class="pl-c1">PORT_NUMBER</span>, <span class="pl-k">function</span>() {
+<span class="pl-smi">server</span>.<span class="pl-en">listen</span>(<span class="pl-c1">5000</span>, <span class="pl-k">function</span>() {
   <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>STARTING SERVER ON PORT <span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-c1">PORT_NUMBER</span>);
 });</pre></div>
 
-<p>Here is a barebones index.html that will demonstrate the data transfer.</p>
+<p>Here is a bare bones index.html that demonstrates the data transfer.</p>
 
 <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">html</span>&gt;
   &lt;<span class="pl-ent">body</span>&gt;
@@ -115,22 +119,81 @@ npm install --save express socket.io</pre></div>
 <span class="pl-s1">    });</span>
 <span class="pl-s1">  &lt;/<span class="pl-ent">script</span>&gt;</span>
   &lt;/<span class="pl-ent">body</span>&gt;
-&lt;/<span class="pl-ent">html</span>&gt;
-</pre></div>
+&lt;/<span class="pl-ent">html</span>&gt;</pre></div>
+
+<p>For more information on Socket.IO, check out the <a href="http://socket.io/docs">documentation</a>, this guide will not cover all the Socket.IO tips and tricks. I highly suggest you try building the example chat applications on their website so that you can understand WebSockets before you undertake this.</p>
+
+<h1>
+<a id="packet-exchange" class="anchor" href="#packet-exchange" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Packet Exchange</h1>
+
+<p>On the server side, implement a hashmap or use <a href="https://www.npmjs.com/package/hashmap">this implementation</a> to store each player and their state in the game. You should have written a Player and a Game class to manage the internal state of the game. The server side will do no rendering, but each class should simply store all the abstract data pertinent to each entity, player, etc, such as position, velocity, damage, health, and so on. The server's sockets should have listeners set up to listen for data from the clients. Upon receiving data, the server will update its internal states. This should all be happening while the server is sending out the state of the game to all clients at a rate of approximately 60Hz.<br>
+On the client side, you should set up socket listeners that receive the state of the game and display it on the canvas. The client side should have <a href="https://codepad.co/snippet/IxpXWI52">event listeners for the keyboard and mouse events</a> so you can record and send them to the server.</p>
+
+<h2>
+<a id="packet-format" class="anchor" href="#packet-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Packet format</h2>
+
+<p>When sending and receiving data on both sides, use JSON objects as the format for your data.</p>
 
 <h3>
-<a id="packet-exchange" class="anchor" href="#packet-exchange" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Packet Exchange</h3>
+<a id="client-side-example" class="anchor" href="#client-side-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Client side example</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/* --Other game code-- */</span>
+<span class="pl-k">var</span> mouseCoords <span class="pl-k">=</span> [];
+<span class="pl-c1">document</span>.<span class="pl-en">addEventListener</span>(<span class="pl-s"><span class="pl-pds">'</span>mousemove<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-c1">event</span>) {
+  mouseCoords <span class="pl-k">=</span> [<span class="pl-c1">event</span>.<span class="pl-smi">offsetX</span>, <span class="pl-c1">event</span>.<span class="pl-smi">offsetY</span>];
+});
+
+<span class="pl-c">/**</span>
+<span class="pl-c"> * This socket emit call can be put inside a game loop to constantly send data</span>
+<span class="pl-c"> * to the server, you can also add more keys to the JSON object to send more</span>
+<span class="pl-c"> * data, such as keyboard events, etc.</span>
+<span class="pl-c"> */</span>
+<span class="pl-smi">socket</span>.<span class="pl-en">emit</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, {
+  mouse<span class="pl-k">:</span> mouseCoords
+});</pre></div>
+
+<h3>
+<a id="server-side-example" class="anchor" href="#server-side-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Server side example</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/* --Other server code-- */</span>
+<span class="pl-smi">io</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>connection<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">socket</span>) {
+  <span class="pl-c">/**</span>
+<span class="pl-c">   * This listens for the user-input packet sent from the client side.</span>
+<span class="pl-c">   * The 'data' parameter in the callback is the JSON object that the</span>
+<span class="pl-c">   * client sent.</span>
+<span class="pl-c">   */</span>
+  <span class="pl-smi">socket</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+    <span class="pl-c">// Output the mouse coordinate data to the console.</span>
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-smi">data</span>.<span class="pl-smi">mouse</span>);
+  });
+});</pre></div>
+
+<p>In this example, I show how you emit user input from the client for processing on the server side. You will need to implement the complementary code that emits the server state to the clients, which listen for it and render it on the canvas. This should be trivial once you understand the concepts of Socket.IO.</p>
+
+<h2>
+<a id="best-practices-authoritative-determination" class="anchor" href="#best-practices-authoritative-determination" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Best practices (Authoritative Determination)</h2>
+
+<p>Let's say on your server you have entities with an x and a y position, and your client emits a packet that looks like this: <code>{ x: 100, y: 200 }</code>. On your server, you have</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">socket</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+  <span class="pl-smi">entity</span>.<span class="pl-c1">x</span> <span class="pl-k">=</span> <span class="pl-smi">data</span>.<span class="pl-c1">x</span>;
+  <span class="pl-smi">entity</span>.<span class="pl-c1">y</span> <span class="pl-k">=</span> <span class="pl-smi">data</span>.<span class="pl-c1">y</span>;
+});</pre></div>
+
+<p>Can you see why this might be problematic? This could very easily be exploited if someone typed</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">socket</span>.<span class="pl-en">emit</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, { x<span class="pl-k">:</span> <span class="pl-c1">999999</span>, y<span class="pl-k">:</span> <span class="pl-c1">999999</span> });</pre></div>
+
+<p>into the JavaScript console. The player's position can be completely controlled by the player. Generally it is good practice for multiplayer games to give the player <em>NO</em> control over their position. Instead, have the client emit the keyboard/mouse data, and leave the calculations up to the server. This is also problematic:</p>
 
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
 <p>Created by <a href="https://github.com/omgimanerd" class="user-mention">@omgimanerd</a><br>
-Check out some of my creations <a href="https://github.com/penumbragames" class="user-mention">@penumbragames</a> (They may take time to load as they are hosted on Heroku free tier)<br>
-<a href="http://tankanarchy.herokuapp.com">Tank Anarchy</a>  </p>
-
-<p><a href="http://obsidio.herokuapp.com">Obsidio</a>  </p>
-
-<p><a href="http://gittothehub.tech">Git To The Hub</a></p>
+Check out some of my creations <a href="https://github.com/penumbragames" class="user-mention">@penumbragames</a> (They may take time to load as they are hosted on Heroku free tier). These games are all open source and their code is available to the public.<br>
+<a href="http://tankanarchy.herokuapp.com">Tank Anarchy</a><br>
+<a href="http://obsidio.herokuapp.com">Obsidio</a><br>
+<a href="http://gittothehub.tech">Git To The Hub</a></p>
 
 <h3>
 <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
