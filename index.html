@@ -60,44 +60,77 @@ npm install --save express socket.io</pre></div>
 <p>Your server.js app script should look something like this:
 (Please note that this is a stripped implementation for demo purposes and that you should take advantage of Express and templating engines if you actually build a project)</p>
 
-<pre><code>// Dependencies.
-var express = require('express');
-var socketIO = require('socket.io');
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// Dependencies.</span>
+<span class="pl-k">var</span> express <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>express<span class="pl-pds">'</span></span>);
+<span class="pl-k">var</span> socketIO <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>socket.io<span class="pl-pds">'</span></span>);
 
-// Initialization.
-var app = express();
-var server = http.Server(app);
+<span class="pl-c">// Initialization.</span>
+<span class="pl-k">var</span> app <span class="pl-k">=</span> <span class="pl-en">express</span>();
+<span class="pl-k">var</span> server <span class="pl-k">=</span> <span class="pl-smi">http</span>.<span class="pl-en">Server</span>(app);
 
-app.set('port', PORT_NUMBER);
+<span class="pl-smi">app</span>.<span class="pl-en">set</span>(<span class="pl-s"><span class="pl-pds">'</span>port<span class="pl-pds">'</span></span>, <span class="pl-c1">PORT_NUMBER</span>);
 
-app.use('/public',
-        express.static(__dirname + '/public'));
+<span class="pl-smi">app</span>.<span class="pl-en">use</span>(<span class="pl-s"><span class="pl-pds">'</span>/public<span class="pl-pds">'</span></span>,
+        <span class="pl-smi">express</span>.<span class="pl-en">static</span>(<span class="pl-c1">__dirname</span> <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>/public<span class="pl-pds">'</span></span>));
 
-app.use('/', function(request, response) {
-  response.sendFile(__dirname + '/index.html');
+<span class="pl-smi">app</span>.<span class="pl-en">use</span>(<span class="pl-s"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">request</span>, <span class="pl-smi">response</span>) {
+  <span class="pl-smi">response</span>.<span class="pl-en">sendFile</span>(<span class="pl-c1">__dirname</span> <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>/index.html<span class="pl-pds">'</span></span>);
 });
 
-io.on('connection', function(socket) {
+<span class="pl-smi">io</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>connection<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">socket</span>) {
+  <span class="pl-smi">socket</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>from-client<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>Data from client: <span class="pl-pds">'</span></span> <span class="pl-k">+</span> data);
+  });
 });
 
-setInterval(function() {
-  // The server side updating will take place here.
-}, 1000 / 60);
+<span class="pl-c1">setInterval</span>(<span class="pl-k">function</span>() {
+  <span class="pl-smi">io</span>.<span class="pl-smi">sockets</span>.<span class="pl-en">emit</span>(<span class="pl-s"><span class="pl-pds">'</span>from-server<span class="pl-pds">'</span></span>, {
+    data<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>DATA FROM SERVER<span class="pl-pds">'</span></span>
+  });
+}, <span class="pl-c1">1000</span> <span class="pl-k">/</span> <span class="pl-c1">60</span>);
 
-// Starts the server.
-server.listen(PORT_NUMBER, function() {
-  console.log('STARTING SERVER ON PORT ' + PORT_NUMBER);
-});
-</code></pre>
+<span class="pl-c">// Starts the server.</span>
+<span class="pl-smi">server</span>.<span class="pl-en">listen</span>(<span class="pl-c1">PORT_NUMBER</span>, <span class="pl-k">function</span>() {
+  <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>STARTING SERVER ON PORT <span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-c1">PORT_NUMBER</span>);
+});</pre></div>
+
+<p>Here is a barebones index.html that will demonstrate the data transfer.</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">html</span>&gt;
+  &lt;<span class="pl-ent">body</span>&gt;
+
+<span class="pl-s1">  &lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>/socket.io/socket.io.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s1">  &lt;<span class="pl-ent">script</span>&gt;</span>
+<span class="pl-s1">    <span class="pl-k">var</span> socket <span class="pl-k">=</span> <span class="pl-en">io</span>();</span>
+<span class="pl-s1">    <span class="pl-c">// Sends data to the server every second.</span></span>
+<span class="pl-s1">    <span class="pl-c1">setInterval</span>(<span class="pl-k">function</span>() {</span>
+<span class="pl-s1">      <span class="pl-smi">socket</span>.<span class="pl-en">emit</span>(<span class="pl-s"><span class="pl-pds">'</span>from-client<span class="pl-pds">'</span></span>, {</span>
+<span class="pl-s1">        data<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">"</span>DATA<span class="pl-pds">"</span></span></span>
+<span class="pl-s1">      });</span>
+<span class="pl-s1">    }, <span class="pl-c1">1000</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-c">// Listens for data from the server and logs it when it receives it.</span></span>
+<span class="pl-s1">    <span class="pl-smi">socket</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>from-server<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {</span>
+<span class="pl-s1">      <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>Data from server <span class="pl-pds">'</span></span> <span class="pl-k">+</span> data);</span>
+<span class="pl-s1">    });</span>
+<span class="pl-s1">  &lt;/<span class="pl-ent">script</span>&gt;</span>
+  &lt;/<span class="pl-ent">body</span>&gt;
+&lt;/<span class="pl-ent">html</span>&gt;
+</pre></div>
+
+<h3>
+<a id="packet-exchange" class="anchor" href="#packet-exchange" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Packet Exchange</h3>
 
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>Created by <a href="https://github.com/omgimanerd" class="user-mention">@omgimanerd</a>
-Check out some of my creations <a href="https://github.com/penumbragames" class="user-mention">@penumbragames</a> (They may take time to load as they are hosted on Heroku free tier)
-<a href="http://tankanarchy.herokuapp.com">Tank Anarchy</a>
-<a href="http://obsidio.herokuapp.com">Obsidio</a>
-<a href="http://gittothehub.tech">Git To The Hub</a></p>
+<p>Created by <a href="https://github.com/omgimanerd" class="user-mention">@omgimanerd</a><br>
+Check out some of my creations <a href="https://github.com/penumbragames" class="user-mention">@penumbragames</a> (They may take time to load as they are hosted on Heroku free tier)<br>
+<a href="http://tankanarchy.herokuapp.com">Tank Anarchy</a>  </p>
+
+<p><a href="http://obsidio.herokuapp.com">Obsidio</a>  </p>
+
+<p><a href="http://gittothehub.tech">Git To The Hub</a></p>
 
 <h3>
 <a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
