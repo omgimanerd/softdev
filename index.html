@@ -55,8 +55,7 @@ mkdir public
 <span class="pl-c"># Initialize a node project (npm is the node package manager, analogous to pip for Python)</span>
 npm init
 <span class="pl-c"># Install dependencies, will be using the ExpressJS framework for this guide.</span>
-npm install --save express socket.io
-<span class="pl-c"># Host the server </span></pre></div>
+npm install --save express socket.io</pre></div>
 
 <p>Your server.js app script should look something like this:
 (Please note that this is a stripped implementation for demo purposes and that you should take advantage of Express and templating engines if you actually build a project)</p>
@@ -98,7 +97,8 @@ npm install --save express socket.io
   <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>STARTING SERVER ON PORT <span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-c1">PORT_NUMBER</span>);
 });</pre></div>
 
-<p>Here is a bare bones index.html that demonstrates the data transfer.</p>
+<p>Run the server with the <code>node</code> command. Ex: <code>node server.js</code>
+Here is a bare bones index.html that demonstrates the data transfer.</p>
 
 <div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">html</span>&gt;
   &lt;<span class="pl-ent">body</span>&gt;
@@ -124,13 +124,13 @@ npm install --save express socket.io
 <p>For more information on Socket.IO, check out the <a href="http://socket.io/docs">documentation</a>, this guide will not cover all the Socket.IO tips and tricks. I highly suggest you try building the example chat applications on their website so that you can understand WebSockets before you undertake this.</p>
 
 <h1>
-<a id="packet-exchange" class="anchor" href="#packet-exchange" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Packet Exchange</h1>
+<a id="serverclient-structure" class="anchor" href="#serverclient-structure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Server/Client Structure</h1>
 
 <p>On the server side, implement a hashmap or use <a href="https://www.npmjs.com/package/hashmap">this implementation</a> to store each player and their state in the game. You should have written a Player and a Game class to manage the internal state of the game. The server side will do no rendering, but each class should simply store all the abstract data pertinent to each entity, player, etc, such as position, velocity, damage, health, and so on. The server's sockets should have listeners set up to listen for data from the clients. Upon receiving data, the server will update its internal states. This should all be happening while the server is sending out the state of the game to all clients at a rate of approximately 60Hz.<br>
-On the client side, you should set up socket listeners that receive the state of the game and display it on the canvas. The client side should have <a href="https://codepad.co/snippet/IxpXWI52">event listeners for the keyboard and mouse events</a> so you can record and send them to the server.</p>
+On the client side, you should set up socket listeners that receive the state of the game and display it on the canvas. The client side should have <a href="https://codepad.co/snippet/IxpXWI52">event listeners for the keyboard and mouse events</a> so you can record and send them to the server. The example code above contains the emitters and listeners on both sides, so you can simply extend off of it and modify it to suit your needs.</p>
 
 <h2>
-<a id="packet-format" class="anchor" href="#packet-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Packet format</h2>
+<a id="best-practices-packet-format" class="anchor" href="#best-practices-packet-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Best Practices (Packet format)</h2>
 
 <p>When sending and receiving data on both sides, use JSON objects as the format for your data.</p>
 
@@ -171,11 +171,12 @@ On the client side, you should set up socket listeners that receive the state of
 <p>In this example, I show how you emit user input from the client for processing on the server side. You will need to implement the complementary code that emits the server state to the clients, which listen for it and render it on the canvas. This should be trivial once you understand the concepts of Socket.IO.</p>
 
 <h2>
-<a id="best-practices-authoritative-determination" class="anchor" href="#best-practices-authoritative-determination" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Best practices (Authoritative Determination)</h2>
+<a id="best-practices-authoritative-determination" class="anchor" href="#best-practices-authoritative-determination" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Best Practices (Authoritative Determination)</h2>
 
-<p>Let's say on your server you have entities with an x and a y position, and your client emits a packet that looks like this: <code>{ x: 100, y: 200 }</code>. On your server, you have</p>
+<p>Let's say on your server you have entities with an x and a y position, and your client emits a packet that looks like this: <code>{ x: 100, y: 200 }</code>. On your server, you have:</p>
 
-<div class="highlight highlight-source-js"><pre><span class="pl-smi">socket</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/* --Other server code-- */</span>
+<span class="pl-smi">socket</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
   <span class="pl-smi">entity</span>.<span class="pl-c1">x</span> <span class="pl-k">=</span> <span class="pl-smi">data</span>.<span class="pl-c1">x</span>;
   <span class="pl-smi">entity</span>.<span class="pl-c1">y</span> <span class="pl-k">=</span> <span class="pl-smi">data</span>.<span class="pl-c1">y</span>;
 });</pre></div>
@@ -184,21 +185,82 @@ On the client side, you should set up socket listeners that receive the state of
 
 <div class="highlight highlight-source-js"><pre><span class="pl-smi">socket</span>.<span class="pl-en">emit</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, { x<span class="pl-k">:</span> <span class="pl-c1">999999</span>, y<span class="pl-k">:</span> <span class="pl-c1">999999</span> });</pre></div>
 
-<p>into the JavaScript console. The player's position can be completely controlled by the player. Generally it is good practice for multiplayer games to give the player <em>NO</em> control over their position. Instead, have the client emit the keyboard/mouse data, and leave the calculations up to the server. This is also problematic:</p>
+<p>into the JavaScript console. The player's position can be completely controlled by the player. Generally it is good practice for multiplayer games to give the player <em>NO</em> control over their position. Instead, have the client emit the keyboard/mouse data, and leave the calculations up to the server. Here's another example of a problematic implementation, let's say the client emits a packet that now looks like this: <code>{ isMovingLeft: true, isMovingUp: false }</code>, and on your server, you have:</p>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/* --Other server code-- */</span>
+<span class="pl-smi">socket</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+  <span class="pl-k">if</span> (<span class="pl-smi">data</span>.<span class="pl-smi">isMovingLeft</span>) {
+    <span class="pl-smi">entity</span>.<span class="pl-c1">x</span> <span class="pl-k">+=</span> <span class="pl-c1">5</span>;
+  } <span class="pl-k">else</span> {
+    <span class="pl-smi">entity</span>.<span class="pl-c1">x</span> <span class="pl-k">-=</span> <span class="pl-c1">5</span>;
+  }
+  <span class="pl-k">if</span> (<span class="pl-smi">data</span>.<span class="pl-smi">isMovingUp</span>) {
+    <span class="pl-smi">entity</span>.<span class="pl-c1">y</span> <span class="pl-k">+=</span> <span class="pl-c1">5</span>;
+  } <span class="pl-k">else</span> {
+    <span class="pl-smi">entity</span>.<span class="pl-c1">y</span> <span class="pl-k">-=</span> <span class="pl-c1">5</span>;
+  }
+});</pre></div>
 
-<p>Created by <a href="https://github.com/omgimanerd" class="user-mention">@omgimanerd</a><br>
-Check out some of my creations <a href="https://github.com/penumbragames" class="user-mention">@penumbragames</a> (They may take time to load as they are hosted on Heroku free tier). These games are all open source and their code is available to the public.<br>
+<p>The line of code that would break this is also trivial:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">while</span> (<span class="pl-c1">true</span>) { <span class="pl-smi">socket</span>.<span class="pl-en">emit</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, { isMovingLeft<span class="pl-k">:</span> <span class="pl-c1">true</span>, isMovingUp<span class="pl-k">:</span> <span class="pl-c1">false</span> }); }</pre></div>
+
+<p>Faster computers with faster connections could send more packets per second that slower computers, causing their player entity to move significantly faster. Linking game/entity speed to packet refresh rate is generally not a good idea as well. Here is an ideal implementation, using the same packet as above:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/* --Other server code-- */</span>
+<span class="pl-smi">socket</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>user-input<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">data</span>) {
+  <span class="pl-k">if</span> (<span class="pl-smi">data</span>.<span class="pl-smi">isMovingLeft</span>) {
+    <span class="pl-smi">entity</span>.<span class="pl-smi">vx</span> <span class="pl-k">=</span> <span class="pl-c1">5</span>;
+  } <span class="pl-k">else</span> {
+    <span class="pl-smi">entity</span>.<span class="pl-smi">vx</span> <span class="pl-k">=</span> <span class="pl-k">-</span><span class="pl-c1">5</span>;
+  }
+  <span class="pl-k">if</span> (<span class="pl-smi">data</span>.<span class="pl-smi">isMovingUp</span>) {
+    <span class="pl-smi">entity</span>.<span class="pl-smi">vy</span> <span class="pl-k">=</span> <span class="pl-c1">5</span>;
+  } <span class="pl-k">else</span> {
+    <span class="pl-smi">entity</span>.<span class="pl-smi">vy</span> <span class="pl-k">=</span> <span class="pl-k">-</span><span class="pl-c1">5</span>;
+  }
+});
+
+<span class="pl-c1">setInterval</span>(<span class="pl-k">function</span>() {
+  <span class="pl-smi">entity</span>.<span class="pl-c1">x</span> <span class="pl-k">+=</span> <span class="pl-smi">entity</span>.<span class="pl-smi">vx</span>;
+  <span class="pl-smi">entity</span>.<span class="pl-c1">y</span> <span class="pl-k">+=</span> <span class="pl-smi">entity</span>.<span class="pl-smi">vy</span>;
+}, <span class="pl-c1">1000</span> <span class="pl-k">/</span> <span class="pl-c1">60</span>);</pre></div>
+
+<p>With this implementation, the packet refresh rate will not affect the speed of the game. Also, tampering with the packet will not allow the player to cheat. This concept of not giving the client control of anything is called <strong>authoritative determination</strong> and is good practice for multiplayer games to prevent cheating and other issues. It also reduces the amount of bug fixing headaches since all the game logic is confined to the server.</p>
+
+<h2>
+<a id="best-practices-tick-independent-game-loops" class="anchor" href="#best-practices-tick-independent-game-loops" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Best Practices (Tick Independent Game Loops)</h2>
+
+<p>By now, you're likely familiar with using functions like <code>setInterval()</code> or <code>window.requestAnimationFrame()</code> for your game loops. These functions generally provide stable FPS and update rate, but to ensure best performance, it is best to make your updates tick-independent, especially on the server (where you cannot use <code>window.requestAnimationFrame()</code>).</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/* --Other server code-- */</span>
+<span class="pl-k">var</span> vx <span class="pl-k">=</span> <span class="pl-c1">5</span>;
+<span class="pl-c1">setInterval</span>(<span class="pl-k">function</span>() {
+  <span class="pl-smi">entity</span>.<span class="pl-c1">x</span> <span class="pl-k">+=</span> vx;
+}, <span class="pl-c1">10</span>);</pre></div>
+
+<p>In this example, the server will move the entity by 5 units every 10 milliseconds. Let's say however, that on one particularly intensive tick, other computations chew through 500 milliseconds. In that time span, the entity has only moved 5 units, which will seem extremely unusual.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">/* --Other server code-- */</span>
+<span class="pl-k">var</span> vx <span class="pl-k">=</span> <span class="pl-c1">5</span>;
+<span class="pl-k">var</span> lastUpdateTime <span class="pl-k">=</span> (<span class="pl-k">new</span> <span class="pl-en">Date</span>()).<span class="pl-c1">getTime</span>();
+<span class="pl-c1">setInterval</span>(<span class="pl-k">function</span>() {
+  <span class="pl-k">var</span> currentTime <span class="pl-k">=</span> (<span class="pl-k">new</span> <span class="pl-en">Date</span>()).<span class="pl-c1">getTime</span>();
+  <span class="pl-k">var</span> updateTimeDifference <span class="pl-k">=</span> (currentTime <span class="pl-k">-</span> lastUpdateTime) <span class="pl-k">/</span> <span class="pl-c1">10</span>;
+  <span class="pl-smi">entity</span>.<span class="pl-c1">x</span> <span class="pl-k">+=</span> vx <span class="pl-k">*</span> updateTimeDifference;
+  lastUpdateTime <span class="pl-k">=</span> currentTime;
+}, <span class="pl-c1">10</span>);</pre></div>
+
+<p>Although contrived and ugly, this code will ensure a consistent update speed, which for certain games is of crucial importance, especially if the game implements some form of a physics engine. This implementation ties the update of the entities to time instead of the server ticks. This ensures that lag spikes or performance drops on the server will not overly impact the performance of each of the connected clients.</p>
+
+<h1>
+<a id="created-by-omgimanerd" class="anchor" href="#created-by-omgimanerd" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Created by <a href="https://github.com/omgimanerd" class="user-mention">@omgimanerd</a>
+</h1>
+
+<p>Check out some of my creations <a href="https://github.com/penumbragames" class="user-mention">@penumbragames</a> (They may take time to load as they are hosted on Heroku free tier). These games are all open source and their code is available to the public.<br>
 <a href="http://tankanarchy.herokuapp.com">Tank Anarchy</a><br>
 <a href="http://obsidio.herokuapp.com">Obsidio</a><br>
 <a href="http://gittothehub.tech">Git To The Hub</a></p>
-
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
         </section>
 
         <aside id="sidebar">
