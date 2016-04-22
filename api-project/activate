@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ $SHLVL == 1 ]; then
+    source ./env/bin/activate
+else
+    echo "Did you mean to run \". ./activate\"?"
+fi

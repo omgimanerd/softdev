@@ -1,0 +1,22 @@
+{
+  "name": "hw05",
+  "homepage": "https://github.com/omgimanerd/softdev",
+  "authors": [
+    "omgimanerd <alvin.lin.dev@gmail.com>"
+  ],
+  "description": "Softdev Homework",
+  "main": "index.html",
+  "moduleType": [],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "d3": "^3.5.16"
+  }
+}

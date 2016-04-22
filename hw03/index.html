@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel='stylesheet' href='styles.css' />
+  </head>
+
+  <body>
+    <canvas id='canvas'></canvas>
+    <br />
+    <button id='start'>Start</button>
+  <body>
+
+  <script src='requestAnimFrame.js'></script>
+  <script src='script.js'></script>
+  <script>
+    var animator = BouncingImageAnimator.create(
+      document.getElementById('canvas'));
+    
+    function animate() {
+      animator.update();
+      animator.draw();
+      window.requestAnimFrame(animate);
+    }
+
+    document.getElementById('start').addEventListener('click', animate);
+  </script>
+
+</html>

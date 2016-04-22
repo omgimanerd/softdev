@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel='stylesheet' href='styles.css' />
+  </head>
+
+  <body>
+
+    <div class='container'>
+      <canvas id='canvas'></canvas>
+
+      <br />
+      
+      <button id='start'>Start Animation</button>
+    </div>
+
+    <script src='requestAnimFrame.js'></script>
+    <script src='script.js'></script>
+    <script>
+      var canvas = document.getElementById('canvas');
+      var circle = CircleAnimator.create(canvas,
+          CircleAnimator.CANVAS_WIDTH / 2,
+          CircleAnimator.CANVAS_HEIGHT / 2, "#FF0000");
+      function animate() {
+        circle.update();
+        circle.draw();
+        window.requestAnimFrame(animate);
+      }
+      document.getElementById('start').addEventListener('click', animate);
+
+      setTimeout(function() {
+        alert('You have been hypnotized.');
+      }, 3000);
+    </script>
+
+  </body>
+
+</html>

@@ -1,0 +1,77 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+  <div class='jumbotron'>
+    <h1>User Settings</h1>
+    <p>
+    Hello, <b>{{ userdata['username'] }}</b>.
+    </p>
+    <button type='button' class='btn btn-default'>
+      <a href='/logout'>
+        Log Out
+      </a>
+    </button>
+  </div>
+
+  <form action='/change_settings' method='POST' role='form'>
+    <div class='form-group'>
+      <label for='zipcode'>Zip Code:</label>
+      <input id='zipcode' class='form-control'
+             type='text' name='zipcode'
+             value='{{ userdata["zipcode"] }}' />
+    </div>
+    <div class='form-group'>
+      <label for='phone'>Phone Number:</label>
+      <input id='phone' class='form-control'
+             type='text' name='phone'
+             value='{{ userdata["phone"] }}' />
+    </div>
+    <div class='radio'>
+      <p class='form-control-statis'>Unit Preference:</p>
+      {% if userdata['metric'] %}
+      <label>
+        <input type='radio' name='metric' value='Celsius' checked />
+        Celsius
+      </label>
+      <label>
+        <input type='radio' name='metric' value='Fahrenheit' />
+        Fahrenheit
+      </label>
+      {% else %}
+      <label>
+        <input type='radio' name='metric' value='Celsius' />
+        Celsius
+      </label>
+      <label>
+        <input type='radio' name='metric' value='Fahrenheit' checked />
+        Fahrenheit
+      </label>
+      {% endif %}
+    </div>
+
+    <button type='submit' class='btn btn-default'>Submit</button>
+  </form>
+
+  <hr />
+
+  <form action='/change_password' method='POST' role='form'>
+    <div class='form-group'>
+      <label for='old_password'>Old Password:</label>
+      <input id='old_password' class='form-control'
+             type='password' name='old_password' />
+    </div>
+    <div class='form-group'>
+      <label for='new_password'>New Password:</label>
+      <input id='new_password' class='form-control'
+             type='password' name='new_password' />
+    </div>
+    <div class='form-group'>
+      <label for='confirm_new_password'>Confirm New Password:</label>
+      <input id='confirm_new_password' class='form-control'
+             type='password' name='confirm_new_password' />
+    </div>
+    <button type='submit' class='btn btn-default'>Submit</button>
+  </form>
+
+{% endblock %}
