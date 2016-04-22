@@ -8,7 +8,6 @@ window.onload = function() {
   container.beginAnimation();
 
   document.getElementById('add-ball').addEventListener('click', function() {
-    console.log("not implemented");
-    // container.addObject(Circle.createRandom());
+    container.addObject(ObjectWithPhysics.createRandom());
   });
 };
