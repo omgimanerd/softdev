@@ -1,9 +1,0 @@
-#!/bin/bash
-
-echo "User: " $1
-echo "Email: " $2
-
-git config --global --unset-all user.name
-git config --global --unset-all user.email
-git config --global user.name $1
-git config --global user.email $2
