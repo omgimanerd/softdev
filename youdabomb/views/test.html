@@ -1,0 +1,55 @@
+<html>
+<canvas height="600" width="800" id="slate" style="border:1px solid #000000;"></canvas>
+<button id="left">Left</button>
+<button id="right">Right</button>
+<button id="up">Up</button>
+<button id="down">Down</button>
+<script src='/public/js/game/Drawing.js'></script>
+<script src='/public/js/game/ViewPort.js'></script>
+<script src='/shared/Constants.js'></script>
+<script>
+	var c = document.getElementById("slate");
+	var ctx = c.getContext("2d");
+	var drawing = Drawing.create(ctx);
+	var view = new ViewPort();
+	var x = 400;
+	var y = 300;	
+	
+	var left = document.getElementById("left");
+	var right = document.getElementById("right");
+	var up = document.getElementById("up");
+	var down = document.getElementById("down");
+
+	var ud = function(e){//updates coords
+		view.update(x,y);
+		drawing.clear();
+		drawing.drawTiles([x,y]);
+		drawing.drawPlayer(true,view.toCanvasCoords(x,y),90, 30, 9, "George");
+		drawing.drawBomb(view.toCanvasCoords(0,0),1, 30);
+		drawing.drawBomb(view.toCanvasCoords(0,1000),2, 30);
+		drawing.drawBomb(view.toCanvasCoords(1000,0),3, 30);
+		drawing.drawBomb(view.toCanvasCoords(1000,1000),4, 30);
+	}
+	var l = function(e){
+		x -= 10;
+		ud();
+	}
+	var r = function(e){
+		x+=10;
+		ud();
+	}
+	var u = function(e){
+		y-=10;
+		ud();
+	}
+	var d = function(e){
+		y+=10;
+		ud();
+	}
+
+	left.addEventListener("mousedown",l);
+	right.addEventListener("mousedown",r);
+	up.addEventListener("mousedown",u);
+	down.addEventListener("mousedown",d);
+</script>
+</html>

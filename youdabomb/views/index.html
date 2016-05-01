@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+
+<link rel="stylesheet"
+      href="/public/bower/font-awesome/css/font-awesome.min.css" />
+
+{% endblock %}
+
+{% block body %}
+
+<div id="container">
+  <div id="name-prompt-container">
+    <form id="name-form">
+      <label id="name-input-label">
+        Name:
+      </label>
+      <input type="text" id="name-input" />
+    </form>
+    <div id="name-submit-spinner"></div>
+  </div>
+  <canvas id="canvas"></canvas>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+  <script src="/socket.io/socket.io.js">
+  </script>
+  <script src="/public/bower/jquery/dist/jquery.min.js"></script>
+  {% if dev_mode %}
+    <script src="/public/js/base.js"></script>
+
+    <script src="/shared/Constants.js"></script>
+    <script src="/shared/Util.js"></script>
+    <script src="/public/js/game/Drawing.js"></script>
+    <script src="/public/js/game/Game.js"></script>
+    <script src="/public/js/game/Input.js"></script>
+    <script src="/public/js/game/ViewPort.js"></script>
+    <script src="/public/js/client.js"></script>
+
+  {% else %}
+    <script src="/public/dist/minified.js"></script>
+  {% endif %}
+{% endblock %}

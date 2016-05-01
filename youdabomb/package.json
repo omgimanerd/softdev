@@ -1,0 +1,36 @@
+{
+  "name": "youdabomb",
+  "version": "1.0.0",
+  "description": "You Da Bomb is a multiplayer open-world game in which you control a single player with the ability to throw a bomb. Bombs explode after a set time when they land and push away all nearby bombs in addition to damaging all nearby players.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "bower install; gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omgimanerd/youdabomb.git"
+  },
+  "author": "Alvin Lin (omgimanerd)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/omgimanerd/youdabomb/issues"
+  },
+  "homepage": "https://github.com/omgimanerd/youdabomb#readme",
+  "dependencies": {
+    "bower": "^1.7.7",
+    "express": "^4.13.4",
+    "google-closure-compiler": "^20160208.1.0",
+    "gulp": "^3.9.1",
+    "gulp-gjslint": "^0.1.5",
+    "gulp-less": "^3.0.5",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "hashmap": "^2.0.4",
+    "less-plugin-autoprefix": "^1.5.1",
+    "less-plugin-clean-css": "^1.5.1",
+    "morgan": "^1.7.0",
+    "socket.io": "^1.4.5",
+    "swig": "^1.4.2"
+  }
+}
