@@ -1,0 +1,115 @@
+{% extends "master.html" %} {% block head %}
+<script src="/static/js/dashboard.js"></script>
+{% endblock %} {% block body %}
+
+<div id="top-bar" class="header-container">
+  <div id="menu" class="menu-icon">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </div>
+  <div class="header-logo">
+    <svg id="snapshot-header" width="150px" height="75px" viewBox="0 0 440 220"></svg>
+  </div>
+</div>
+<div id="side-bar" class="profile-container">
+  <div class="profile-logo">
+    <svg id="snapshot" width="220px" height="110px" viewBox="0 0 440 220"></svg>
+  </div>
+  {% if selfie_uids %}
+  <div class="profile-pic">
+    <img class="profile-picture" src="/uploads/{{ user }}_0.jpg" />
+  </div>
+  {% endif %}
+  <div class="profile-stats">
+    <p id="player-stats"> {{name}} </p>
+  </div>
+  <div class="menu-options">
+    <ul class="options-list">
+      <li id="general" class="menu-selected"> GENERAL
+        <div class="arrow-left"></div>
+      </li>
+      <li id="pictures" class="menu-unselected"> PICTURES
+        <div class="arrow-left"></div>
+      </li>
+    </ul>
+    <a href="/game" id="logout" class="backToGameButton">
+      GAME PAGE
+    </a>
+    <a href="/logout" id="logout" class="logoutButton">
+       Logout
+    </a>
+  </div>
+</div>
+<div id="game-container">
+  <h1 class="game-title"> DASHBOARD </h1>
+  <h1 class="game-title-small">ACCOUNT SETTINGS</h1>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <h1 id="redirect-error" class="game-title-small"> {{ messages[0] }} </h1>
+    {% endif %}
+  {% endwith %}
+  <div id="settings-general">
+    <p id="change-status">Error</p>
+    <ul class="settingsContainer">
+      <li class="settingsInnerContainer">
+        <p class="defaultFont leftSettings">Name:</p>
+        <p class="rightSettings">{{name}}</p>
+      </li>
+      <li class="settingsInnerContainer">
+        <p class="defaultFont leftSettings">Username:</p>
+        <p class="rightSettings">{{username}}</p>
+      </li>
+      <li class="settingsInnerContainer">
+        <p class="defaultFont leftSettings">Email:</p>
+        <p id="email-text" class="rightSettings">{{email}}</p>
+        <input id="change-email-text" type="email" class="textInput" placeholder="Change Email"/>
+        <button id="changeEmail" class="editButton">Edit</button>
+        <button id="submitEmail" class="editButton">Submit</button>
+        <button id="exitEmail" class="editButton">X</button>
+      </li>
+      <li class="settingsInnerContainer">
+        <p class="leftSettings">Password:</p>
+        <p id="password-text" class="rightSettings">******</p>
+        <input id="change-password-text" type="password" class="textInput" placeholder="Change Password"/>
+        <button id="changePassword" class="editButton">Edit</button>
+        <button id="submitPassword" class="editButton">Submit</button>
+        <button id="exitPassword" class="editButton">X</button>
+        <br/>
+        <input id="confirm-password-text" type="password" class="textInput" placeholder="Confirm Password"/>
+      </li>
+    </ul>
+  </div>
+
+  <div id="settings-pictures">
+    <div class="game-small-left upload-resp">
+      <div class="game-left upload-resp">
+        <div class="upload-pictures">
+          <ul class="upload-list">
+            <p class="upload-text"> Please upload 5 selfies </p>
+            <p id="upload-error" class="upload-text"></p>
+            <li>
+              <form id="selfie-1" class="selfies">
+                <img id="loading" src="../static/data/loading.gif" alt="Loading" />
+                <img id="click-1" class="upload-default" src="../static/data/plus.png" alt="Upload Picture" />
+                <input id="upload-1" class="file-upload" type="file" name="selfie" />
+                <button class="upload-image" type="submit">Confirm</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="game-small-right upload-resp">
+      <div class="game-right upload-resp">
+        <ol class="uploaded-list">
+          {% for uid in selfie_uids %}
+          <li><img class="upload-default" src="/uploads/{{ user }}_{{ loop.index0 }}.jpg" /></li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

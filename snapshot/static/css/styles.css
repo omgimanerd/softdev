@@ -1,0 +1,948 @@
+/**
+ * Main stylesheet for the website.
+ * TODO: this should be split into multiple css files
+ */
+
+.settingsInnerContainer {
+  list-style: none;
+  margin-top: 10px;
+  height: 30px;
+  width: 800px;
+}
+
+.settingsContainer {
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.leftSettings {
+  margin-left: 50px;
+  margin-right: auto;
+  display: inline;
+}
+
+.rightSettings {
+  margin-right: 100px;
+  margin-right: auto;
+  display: inline;
+}
+
+.editButton {
+  font-family: "Courier", Courier, serif !important;
+  background-color: transparent;
+  text-decoration: none;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  border-radius: 3px;
+  width: 90px;
+  height: 20px;
+  font-size: 12px;
+  text-align: center;
+  display: inline;
+  padding: 2px 5px 2px 5px;
+}
+
+.editButton:hover {
+  background-color: #00FF00;
+  color: black;
+  cursor: pointer;
+}
+
+.editButton:focus {
+  outline: none;
+}
+
+.newsfeed {
+  border-top: 2px solid #00FF00;
+  border-bottom: 2px solid #00FF00;
+  margin-top: 0px;
+  padding-right: 1px;
+}
+
+.game-updates {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  max-height: 400px;
+  overflow: auto;
+  list-style: none;
+  padding-left: 6px;
+  padding-right: 4px;
+}
+
+.game-updates li {
+  height: 36px;
+  border-bottom: 1px solid #00FF00;
+  text-align: center;
+  line-height: 40px;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: "Courier", Courier, serif !important;
+  color: #00FF00 !important;
+  background-color: black !important;
+  min-height: 100%;
+  margin: 0px;
+  font-size: 14px;
+}
+
+.formLeft {
+  padding-left: 20px;
+  float: left;
+}
+
+.formRight {
+  padding-right: 20px;
+  float: right;
+}
+
+.tab {
+  background-color: black;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: 2px solid #00FF00;
+  margin-top: 50px;
+  height: 50px;
+  width: 199px;
+}
+
+.tabContainer {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -2px;
+}
+
+.left-tab {
+  border-right-width: 1px;
+}
+
+.right-tab {
+  border-left-width: 1px;
+}
+
+.selected {
+  border-bottom-color: transparent;
+}
+
+.unselected {
+  border-bottom-color: #00FF00;
+  /* IDK WHY THE BOTTOM BORDER ISN'T SHOWING >:((*/
+}
+
+.APlogin {
+  height: 330px;
+  width: 400px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  border-bottom-color: #00FF00;
+  border-left-color: #00FF00;
+  border-right-color: #00FF00;
+  border-top-color: transparent;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+@media (max-width: 450px) {
+  .APlogin {
+    width: 300px;
+  }
+  .tab {
+    width: 149px;
+  }
+  .formRight {
+    padding-right: 5px;
+  }
+  .formLeft {
+    padding-left: 5px;
+  }
+}
+
+.alienpanel {
+  background-color: black;
+  border-style: solid;
+  border-width: 2px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.APgame {
+  height: 100px;
+  width: 400px;
+  margin-top: 50px;
+  border-radius: 5px;
+  border: 2px solid #00FF00;
+}
+
+.default-font {
+  font-family: "Courier", Courier, serif;
+  color: #00FF00;
+}
+
+.default-font img {
+  width: auto;
+  height: 100px;
+}
+
+.test-img {
+  width: 125px;
+  height: 175px;
+}
+
+.player-stats {
+  margin-bottom: 5px;
+}
+
+.button {
+  background-color: transparent;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  border-radius: 3px;
+  margin-bottom: 20px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 7px;
+  padding-right: 7px;
+  font-family: "Courier", Courier, serif;
+  font-size: 14px;
+}
+
+.upload-image:focus {
+  outline: none;
+}
+
+.snapshot-contain {
+  margin-left: auto;
+  margin-right: auto;
+  width: 440px;
+  height: 200px;
+}
+
+@keyframes camera-focus-top {
+  100% {
+    transform: translateY(12px);
+  }
+}
+
+@keyframes camera-focus-bot {
+  100% {
+    transform: translateY(-12px);
+  }
+}
+
+.focus-line-top {
+  animation: camera-focus-top 2s linear infinite alternate;
+}
+
+.focus-line-bot {
+  animation: camera-focus-bot 2s linear infinite alternate;
+}
+
+@keyframes camera-focus-left {
+  100% {
+    transform: translateX(12px);
+  }
+}
+
+@keyframes camera-focus-right {
+  100% {
+    transform: translateX(-12px);
+  }
+}
+
+.focus-line-left {
+  animation: camera-focus-left 2s linear infinite alternate;
+}
+
+.focus-line-right {
+  animation: camera-focus-right 2s linear infinite alternate;
+}
+
+.withPadding {
+  padding-left: 30px;
+}
+
+.textInput {
+  outline: none;
+  border: none;
+  border-bottom: solid 1px #00FF00;
+  color: #00FF00;
+  font-family: "Courier", Courier, serif;
+  background-color: black;
+}
+
+#register {
+  display: none;
+}
+
+#loginTab:hover {
+  cursor: pointer;
+}
+
+#registerTab:hover {
+  cursor: pointer;
+}
+
+.profile-container {
+  width: 280px;
+  min-height: 100vh;
+  border-right: 2px solid #00FF00;
+  float: left;
+}
+
+@media (max-width: 900px) {
+  .profile-container {
+    float: none;
+  }
+}
+
+.profile-logo {
+  margin-left: auto;
+  margin-right: auto;
+  width: 220px;
+  height: 100px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.profile-pic {
+  height: 170px;
+  width: 170px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #00FF00;
+  margin-bottom: 10px;
+}
+
+.profile-picture {
+  height: 170px;
+  width: 170px;
+}
+
+.profile-stats {
+  text-align: center;
+}
+
+.profile-games {
+  border-top: 2px solid #00FF00;
+  border-bottom: 2px solid #00FF00;
+  margin-top: 0px;
+  padding-right: 1px;
+}
+
+.game-list {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  max-height: 200px;
+  overflow: auto;
+  list-style: none;
+  padding-left: 6px;
+  padding-right: 4px;
+}
+
+.game-list li {
+  height: 42px;
+  border-bottom: 1px solid #00FF00;
+  text-align: center;
+  line-height: 40px;
+}
+
+.game-list li:last-child {
+  border-bottom: none;
+}
+
+.game-list li:hover {
+  background-color: #00FF00;
+  color: black;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  height: 4px;
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 255, 0, 1);
+  box-shadow: 0 0 1px rgba(0, 255, 0, 1);
+}
+
+.game-button {
+  font-family: "Courier", Courier, serif !important;
+  background-color: transparent;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  border-radius: 3px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  width: 130px;
+  height: 35px;
+  font-size: 16px;
+}
+
+.logoutButton {
+  font-family: "Courier", Courier, serif !important;
+  background-color: transparent;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  border-radius: 3px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  width: 70px;
+  height: 20px;
+  font-size: 10px;
+  text-decoration: none;
+  line-height: 20px;
+  vertical-align: center;
+  text-align: center;
+}
+
+.game-button:hover {
+  background-color: #00FF00;
+  color: black;
+  cursor: pointer;
+}
+
+.game-button:focus {
+  outline: none;
+}
+
+.logoutButton:hover {
+  background-color: #00FF00;
+  color: black;
+}
+
+.logoutButton:focus {
+  outline: none;
+}
+
+.backToGameButton {
+  font-family: "Courier", Courier, serif !important;
+  background-color: transparent;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  border-radius: 3px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 190px;
+  width: 130px;
+  height: 24px;
+  font-size: 15px;
+  text-decoration: none;
+  line-height: 24px;
+  vertical-align: center;
+  text-align: center;
+}
+
+.backToGameButton:hover {
+  background-color: #00FF00;
+  color: black;
+}
+
+.backToGameButton:focus {
+  outline: none;
+}
+
+.profile-buttons {
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
+
+.header-logo {
+  width: 150px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.header-container {
+  border-bottom: 1px solid #00FF00;
+}
+
+.icon-bar {
+  display: block;
+  margin-left: 11px;
+  margin-top: 11px;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+  background-color: #00FF00;
+  -webkit-transform: translate3d(0, 0, 0) rotate(0deg);
+  -webkit-transition: .5s ease-in-out;
+}
+
+.icon-bar + .icon-bar {
+  margin-top: 4px;
+}
+
+.menu-icon {
+  height: 35px;
+  width: 36px;
+  background-color: transparent;
+  margin-top: 20px;
+  margin-left: 20px;
+  float: left;
+}
+
+.menu-icon-open {
+  height: 35px;
+  width: 36px;
+  background-color: transparent;
+  margin-top: 20px;
+  margin-left: 20px;
+  float: left;
+}
+
+.menu-icon span:nth-child(1) {
+  -webkit-transform-origin: left center;
+}
+
+.menu-icon span:nth-child(2) {
+  -webkit-transform-origin: left center;
+}
+
+.menu-icon span:nth-child(3) {
+  -webkit-transform-origin: left center;
+}
+
+.menu-icon-open span:nth-child(1) {
+  -webkit-transform: translate3d(0, 6px, 0) rotate(45deg);
+}
+
+.menu-icon-open span:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+.menu-icon-open span:nth-child(3) {
+  -webkit-transform: translate3d(0, -6px, 0) rotate(-45deg);
+}
+
+.menu-icon:hover {
+  cursor: pointer;
+}
+
+.menu-icon-open:hover {
+  cursor: pointer;
+}
+
+.full-container {
+  width: 100%;
+}
+
+#game-container {
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.game-title {
+  margin: 0px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.game-big {
+  min-height: 348px;
+  border-bottom: 1px solid #00FF00;
+}
+
+.game-small-left {
+  min-height: 665px;
+  width: 50%;
+  float: left;
+  display: flex;
+}
+
+.game-small-right {
+  min-height: 665px;
+  width: 50%;
+  float: right;
+}
+
+.game-left {
+  border-right: 1px solid #00FF00;
+  min-height: 665px;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .game-small-right {
+    width: 100%;
+    float: none;
+    min-height: 300px;
+  }
+  .game-small-left {
+    width: 100%;
+    float: none;
+    min-height: 300px;
+  }
+  .game-left {
+    border-bottom: 1px solid #00FF00;
+    min-height: 300px;
+  }
+  .game-right {
+    min-height: 300px;
+  }
+}
+
+.menu-options {
+  margin-top: 30px;
+}
+
+.options-list {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.options-list li {
+  height: 40px;
+  font-size: 20px;
+  line-height: 40px;
+  vertical-align: middle;
+  border-bottom: 1px solid #00FF00;
+  padding-left: 20px;
+}
+
+.options-list li:hover {
+  background-color: #00FF00;
+  color: black;
+  border-bottom-color: black !important;
+  cursor: pointer;
+}
+
+.options-list li:first-child {
+  border-top: 1px solid #00FF00;
+}
+
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 14px solid transparent;
+  border-bottom: 14px solid transparent;
+  border-right: 14px solid black;
+  display: inline;
+  float: right;
+  margin-top: 6px;
+}
+
+.menu-selected {
+  background-color: #00FF00;
+  color: black;
+  border-bottom-color: black !important;
+}
+
+.upload-list {
+  list-style: none;
+  padding: 0px;
+}
+
+.upload-list li {
+  height: 112px;
+  margin-bottom: 30px;
+}
+
+.upload-pictures {
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 222px;
+}
+
+.file-upload {
+  display: none;
+}
+
+.upload-default {
+  height: 110px;
+  width: 110px;
+  border: 1px solid #00FF00;
+}
+
+.upload-default:hover {
+  cursor: pointer;
+}
+
+.upload-image {
+  background-color: transparent;
+  border: 1px solid #00FF00;
+  color: #00FF00;
+  height: 30px;
+  margin-left: 30px;
+  width: 80px;
+  font-size: 14px;
+  font-family: "Courier", Courier, serif !important;
+}
+
+.upload-image:hover {
+  cursor: pointer;
+  background-color: #00FF00;
+  color: black;
+}
+
+.selfies {
+  display: flex;
+  align-items: center;
+}
+
+.upload-resp {
+  min-height: 200px !important;
+  border-right: none;
+}
+
+@media (max-width: 900px) {
+  .upload-resp {
+    border-bottom: none;
+  }
+}
+
+.game-title-small {
+  margin: 0px;
+  margin-top: 10px;
+  text-align: center;
+  font-size: 24px;
+}
+
+.register-button {
+  margin-top: 30px;
+  margin-left: 20px;
+}
+
+.button:hover {
+  cursor: pointer;
+  background-color: #00FF00;
+  color: black;
+}
+
+.button:focus {
+  outline: none;
+}
+
+.center {
+  text-align: center;
+}
+
+#stat-container {
+  margin-top: 25px;
+  display: none;
+}
+
+#create-game-container {
+  padding-top: 50px;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: none;
+}
+
+#join-game-container {
+  padding-top: 50px;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: none;
+}
+
+.create-name {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.create-label {
+  font-size: 18px;
+}
+
+#create-game-button {
+  font-size: 16px;
+}
+
+#join-game-button {
+  font-size: 16px;
+}
+
+.clicked {
+  background-color: #00FF00;
+  color: black;
+  border-bottom-color: black !important;
+}
+
+#create-error {
+  display: none;
+}
+
+#join-error {
+  display: none;
+}
+
+#join-error-none {
+  display: none;
+}
+
+#settings-pictures {
+  display: none;
+}
+
+.profile-games-title {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.stat-list {
+  list-style: none;
+}
+
+#game-players li:last-child {
+  border-bottom: none;
+}
+
+#game-players p {
+  text-align: center;
+}
+
+#game-players li:hover {
+  cursor: pointer;
+  background-color: #00FF00;
+  color: black;
+}
+
+#selected-player {
+  display: none;
+}
+
+#selected-stats {
+  padding: 0;
+  list-style: none;
+}
+
+#selected-picture {
+  margin-top: 20px;
+}
+
+.stat-lines {
+  display: inline-block;
+  margin: 0px;
+}
+
+.upload-text {
+  margin-bottom: 30px;
+}
+
+.uploaded-list {
+  width: 150px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.uploaded-list img {
+  vertical-align: middle;
+}
+
+.uploaded-list li {
+  margin-bottom: 10px;
+}
+
+#selected-selfie {
+  margin-left: auto;
+  margin-right: auto;
+  width: 222px;
+  margin-top: 20px;
+}
+
+#selected-selfie button {
+  display: inline-block;
+}
+
+.kill-text {
+  text-align: center;
+  font-size: 24px;
+}
+
+#login-error {
+  text-align: center;
+  min-height: 30px;
+}
+
+#register-error {
+  text-align: center;
+  display: none;
+}
+
+#login {
+  width: 135px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#change-email-text {
+  display: none;
+}
+#change-password-text {
+  display: none;
+}
+#confirm-password-text {
+  display: none;
+  margin-left: 134px;
+  margin-top: 10px;
+}
+#submitPassword {
+  display: none;
+}
+#submitEmail {
+  display: none;
+}
+#exitPassword {
+  display: none;
+  width: 20px;
+  border: none;
+}
+#exitEmail {
+  display: none;
+  width: 20px;
+  border: none;
+}
+#exitPassword:hover {
+  background-color: black;
+  color: #00FF00;
+}
+#exitEmail:hover {
+  background-color: black;
+  color: #00FF00;
+}
+#change-status {
+  padding-left: 180px;
+  font-size: 20px;
+  display: none;
+}
+@media (max-width: 480px) {
+  .settingsContainer {
+    padding: 0px;
+  }
+  .leftSettings {
+    margin: 0px;
+  }
+}
+#loading {
+  display: none;
+  width: 80px;
+  height: 80px;
+}
+#kill-status {
+  text-align: center;
+  margin: 0px;
+  font-size: 20px;
+}

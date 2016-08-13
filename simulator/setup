@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source env/bin/activate
+export APP_SECRET="83hi2g9wf929g8d7gf9299f"

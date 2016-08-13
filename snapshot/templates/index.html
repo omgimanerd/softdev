@@ -1,0 +1,68 @@
+{% extends "master.html" %} {% block head %}
+<script src="/static/js/index.js"></script>
+{% endblock %} {% block body %}
+
+
+<div class="snapshot-contain">
+  <svg id="snapshot" width="440px" height="220px" viewBox="0 0 440 220"></svg>
+</div>
+
+<div class="tabContainer">
+  <div id="loginTab" class="tab left-tab selected">
+    <p class="default-font">Login</p>
+  </div>
+  <div id="registerTab" class="tab right-tab unselected">
+    <p class="default-font">Register</p>
+  </div>
+</div>
+
+
+<div class="alienpanel APlogin" id="form">
+  <p id="login-error"></p>
+  <form class="default-font" id="login">
+    <p>Username: </p>
+    <input class="textInput" type="text" id="login-username"
+           placeholder="username" />
+    <br/>
+    <p><br/>Password: </p>
+    <input class="textInput" type="password" id="login-password"
+           placeholder="password" />
+    <br/>
+    <br>
+    <button class="button" type="submit">Login</button>
+  </form>
+  <p id="register-error"></p>
+  <form class="default-font" id="register">
+    <div class="formLeft">
+      <p>Name: </p>
+      <input class="textInput" type="text" id="register-name"
+             placeholder="name" />
+      <br/>
+      <p><br/>Email: </p>
+      <input class="textInput" type="email" id="register-email"
+             placeholder="email" />
+      <br/>
+      <br/>
+    </div>
+    <div class="formRight">
+      <p>Username: </p>
+      <input class="textInput" type="text" id="register-username"
+             placeholder="username" />
+      <br/>
+      <p><br/>Password: </p>
+      <input class="textInput" type="password" id="register-password"
+             placeholder="password" />
+      <br/>
+      <p><br/>Confirm password: </p>
+      <input class="textInput" type="password" id="register-confirm-password"
+             placeholder="confirm password" />
+      <br/>
+    </div>
+    <div>
+      <button class="button register-button" type="submit">Register</button>
+    </div>
+  </form>
+
+</div>
+
+{% endblock %}

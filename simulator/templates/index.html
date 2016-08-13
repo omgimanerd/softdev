@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Org</title>
+    {% if not bower %}
+    <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css" media="screen" charset="utf-8"/>
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js" charset="utf-8"></script>
+    {% else %}
+    <link rel="stylesheet" href="/static/bower/material-design-icons/iconfont/material-icons.css" media="screen" charset="utf-8"/>
+    <link rel="stylesheet" href="/static/bower/Materialize/dist/css/materialize.min.css" media="screen" charset="utf-8"/>
+
+    <script src="/static/bower/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <script src="/static/bower/Materialize/dist/js/materialize.min.js" charset="utf-8"></script>
+    {% endif %}
+    <link rel="stylesheet" href="/static/css/styles.css" media="screen" charset="utf-8">
+  </head>
+
+  <body>
+    <canvas id="canvas">
+      If you see this message, then you should not be using the Internet
+      on whatever brick you're using.
+    </canvas>
+    <div class="settings-container blue darken-4 open">
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <ul class="tabs blue darken-4">
+              {% for index in [0, 1, 2, 3] %}
+              <li class="tab col s3">
+                <a href="#iro{{ index }}" id="iro{{ index }}-tab">
+                  Organism Type {{ index + 1 }}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% for iro in config %}
+          <div class="row" id="iro{{ loop.index0 }}">
+            <div class="col s4">
+              <p class="range-field">
+                <input id="iro{{ loop.index0 }}-initial-population"
+                  type="range" min="0" max="100" class="initial-population"
+                  value="{{ iro['initial-population'] }}"/>
+                <label for="iro{{ loop.index0 }}-initial-population">
+                  Initial Population
+                </label>
+              </p>
+            </div>
+            <div class="col s4">
+              <p class="range-field">
+                <input id="iro{{ loop.index0 }}-starting-health"
+                  type="range" min="0" max="100"
+                  value="{{ iro['starting-health'] }}"/>
+                <label for="iro{{ loop.index0 }}-starting-health">
+                  Starting Health
+                </label>
+            </p>
+            </div>
+            <div class="col s4">
+              <p class="range-field">
+                <input id="iro{{ loop.index0 }}-starting-fuel"
+                  type="range" min="0" max="100"
+                  value="{{ iro['starting-fuel'] }}" />
+                <label for="iro{{ loop.index0 }}-starting-fuel">
+                  Starting Fuel
+              </p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="row">
+          <div class="col s12 center-align">
+            <a class="btn waves-effect waves-light start-button">
+              Start Simulation
+            </a>
+            <a class="btn waves-effect waves-light pause-button">
+              Pause Simulation
+            </a>
+            <a class="btn waves-effect waves-light reset-button">
+              Reset Simulation
+            </a>
+            <a class="btn waves-effect waves-light modal-trigger"
+              href="#help-modal">
+              Help
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row center-align toggle-settings green lighten-3">
+        <i class="material-icons toggle-settings-icon">expand_less</i>
+      </div>
+    </div>
+
+    <div id="help-modal" class="modal modal-fixed-footer">
+      <div class="modal-content">
+        <h4>Help</h4>
+        <p>
+          This simulation of life involves four different populations - the
+          green autotrophs and the three different types of predators (the blue
+          ones eat the autotrophs, the purple ones eat the blue, and the brown
+          ones eat the purple).
+        </p>
+        <p>
+          The organisms in this simulation are model rockets; i.e., they have
+          certain amounts of fuel at any given time that they can divert to an
+          engine, allowing them to navigate to a chosen target. After they run
+          out of fuel, they are no longer able to move, as seen by their engines
+          turning completely black (an engine that is being fired is normally
+          colored red). Organisms are able to gain more fuel by feeding, which
+          also replenishes their health. If an organism does not feed for too
+          long, it will die of hunger, and its entire body will turn black.
+          However, organisms cannot eat too much at a time, so they have to take
+          breaks between meals.
+        </p>
+        <p>
+          Once an organism is old enough, it can start looking for potential
+          mates. This tends to result in groups of organisms in a population
+          clumping together so as to reproduce more efficiently (that is, they
+          needn't move very far to find mates). Just as with feeding, organisms
+          need to take breaks after mating.
+        </p>
+        <p>
+          An organism's mass is determined by the area it takes up. The more
+          massive an organism is, the more fuel and energy it is able to hold at
+          a time. However, greater mass also means that an organism needs to eat
+          more to replenish its health.
+        </p>
+        <p>
+          To change the variables for a certain population, use the sliders to
+          configure the number of organisms that population starts with, the
+          health of newly-born members of that population, and the fuel in
+          newly-born members of that population.
+        </p>
+        <p>
+          Once the sliders are configured, click the start button to run the
+          simulation. You can click pause at any time or reset to start over.
+        </p>
+        <h5>Enjoy!</h5>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-green btn-flat">
+          <i class="material-icons">close</i>
+        </a>
+      </div>
+    </div>
+
+  </body>
+
+  <script src="/static/js/Drawing.js" charset="utf-8"></script>
+  <script src="/static/js/life.js" charset="utf-8"></script>
+  <script src="/static/js/client.js" charset="utf-8"></script>
+  <script>
+    indexJs();
+  </script>
+</html>

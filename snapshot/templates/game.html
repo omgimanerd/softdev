@@ -1,0 +1,141 @@
+{% extends "master.html" %}
+
+{% block body %}
+<div id="top-bar" class="header-container">
+  <div id="menu" class="menu-icon">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </div>
+  <div class="header-logo">
+    <svg id="snapshot-header" width="150px" height="75px" viewBox="0 0 440 220"></svg>
+  </div>
+</div>
+
+<div class="full-container">
+  <div id="side-bar" class="profile-container">
+    <div class="profile-logo">
+      <svg id="snapshot" width="220px" height="110px" viewBox="0 0 440 220"></svg>
+    </div>
+    {% if selfie_uids %}
+    <div class="profile-pic">
+      <img class="profile-picture" src="/uploads/{{ user }}_0.jpg" />
+    </div>
+    {% endif %}
+    <div class="profile-stats">
+      <p id="player-stats"> {{ name }} </p>
+    </div>
+    <p class="profile-games-title">GAME LIST</p>
+    <div class="profile-games">
+      <ul class="game-list" id="yourGames">
+         {% if games|length > 0 %}
+           {% for game in games %}
+             <li>{{game["game_name"]}}</li>
+           {% endfor %}
+         {% else %}
+          <p class="defaultFont center">
+             PLEASE JOIN A GAME
+          </p>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="profile-buttons">
+      <button id="create-game" class="game-button">
+         Create Game
+      </button>
+      <button id="join-game" class="game-button">
+         Join Game
+      </button>
+      <a href="/dashboard" id="logout" class="logoutButton">
+         Settings
+      </a>
+      <a href="/logout" id="logout" class="logoutButton">
+         Logout
+      </a>
+    </div>
+  </div>
+
+  <div id="game-container">
+    <h1 class="game-title"> PLEASE SELECT A GAME </h1>
+    <div id="stat-container">
+      <div class="game-small-left">
+        <div class="game-left">
+          <h1 class="game-title-small"> PLAYER STATS </h1>
+          <ul class="stat-list">
+            <li> Username: <p class="stat-lines" id="username">{{user}}</p></li>
+            <li> Status: <p class="stat-lines" id="status"></p></li>
+            <li> Number of Uploads: <p class="stat-lines" id="uploads"></p></li>
+            <li> Number of Kills: <p class="stat-lines" id="kills"></p></li>
+          </ul>
+          <h1 class="game-title-small"> GAME UPDATES </h1>
+          <div class="newsfeed">
+            <ul class="game-updates">
+
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="game-small-right">
+        <div class="game-right">
+          <h1 class="game-title-small"> GAME PLAYERS </h1>
+          <div class="newsfeed">
+            <ul id="game-players" class="game-updates">
+
+            </ul>
+          </div>
+          <h1 id="player-select-title" class="game-title-small"> SELECT A PLAYER </h1>
+          <div id="selected-player" class="player-container">
+            <div id="selected-picture" class="profile-pic">
+            </div>
+            <ul id="selected-stats" class="profile-stats">
+              <li> Username: <p class="stat-lines" id="selected-username"></p></li>
+              <li> Status: <p class="stat-lines" id="selected-status"></p></li>
+              <li> Number of Uploads: <p class="stat-lines" id="selected-uploads"></p></li>
+              <li> Number of Kills: <p class="stat-lines" id="selected-kills"></p></li>
+            </ul>
+            <p class="kill-text"> KILL CONFIRMATION </p>
+            <p id="kill-status"></p>
+            <form id="selected-selfie" class="selfies">
+              <img id="loading" src="../static/data/loading.gif" alt="Loading" />
+              <img id="click-1" class="upload-default" src="../static/data/plus.png" alt="Upload Picture" />
+              <input id="game-name" type="hidden" name="gameName" />
+              <input id="upload-target" type="hidden" name="target" />
+              <input id="upload-1" class="file-upload" type="file" name="image" />
+              <button class="upload-image" type="submit">Confirm</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="create-game-container">
+      <form id="create-game-form">
+        <label class="create-label" for="gameName"> Name of Game: </label>
+        <br/>
+        <br/>
+        <label id="create-error" for="gameName"> Game Name Cannot Be Blank </label>
+        <br/>
+        <input id="createName" class="textInput create-name" type="text" name="gameName" placeholder="Name of Game" />
+        <br/>
+        <button class="button" id="create-game-button" type="submit"> Create Game </button>
+      </form>
+    </div>
+    <div id="join-game-container">
+      <form id="join-game-form">
+        <label class="create-label" for="gameName"> Name of Game: </label>
+        <br/>
+        <br/>
+        <label id="join-error-none" for="gameName"> Game Does Not Exist </label>
+        <label id="join-error" for="gameName"> Game Name Cannot Be Blank </label>
+        <br/>
+        <input id="joinName" class="textInput create-name" type="text" name="gameName" placeholder="Name of Game" />
+        <br/>
+        <button class="button" id="join-game-button" type="submit"> Join Game </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script src="/static/js/game.js"></script>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{
+  "name": "snapshot",
+  "authors": [
+    "Alvin Lin (omgimanerd)",
+    "Roy Xu (captiosus)",
+    "Felicity Ng (FelicityPictures)",
+    "Sara Wu (bilingwu)"
+  ],
+  "description": "",
+  "main": "app.py",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.2.0",
+    "bootstrap": "~3.3.6"
+  }
+}

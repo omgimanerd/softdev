@@ -1,0 +1,27 @@
+{
+  "name": "simulator",
+  "homepage": "https://github.com/omgimanerd/simulator",
+  "authors": [
+    "gredoz",
+    "omgimanerd",
+    "chrisgco",
+    "dennisYatunin"
+  ],
+  "description": "Final Project for Software Development at Stuyvesant High School",
+  "main": "app.py",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Materialize": "materialize#^0.97.6",
+    "jquery": "^2.2.3",
+    "material-design-icons": "^2.2.3"
+  }
+}

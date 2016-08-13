@@ -1,0 +1,33 @@
+/**
+ * Stylesheet
+ */
+
+canvas {
+  position: absolute;
+  z-index: -1;
+}
+
+.settings-container {
+  opacity: 0.75 !important;
+  position: relative;
+}
+
+.toggle-settings {
+  cursor: pointer;
+}
+
+#iro0-tab {
+  color: rgb(50, 205, 50);
+}
+
+#iro1-tab {
+  color: rgb(0, 191, 255);
+}
+
+#iro2-tab {
+  color: rgb(147, 112, 219);
+}
+
+#iro3-tab {
+  color: rgb(210, 105, 30);
+}
